@@ -1,0 +1,51 @@
+# ================================================
+# Netlify Configuration - CAR DREAM 買取実績LP
+# ================================================
+
+[build]
+  publish = "."        # ルートディレクトリをそのまま公開
+  command = ""         # ビルドコマンドなし（純粋な静的サイト）
+
+# ---------- Headers ----------
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # セキュリティヘッダー
+    X-Frame-Options          = "SAMEORIGIN"
+    X-Content-Type-Options   = "nosniff"
+    X-XSS-Protection         = "1; mode=block"
+    Referrer-Policy          = "strict-origin-when-cross-origin"
+    Permissions-Policy       = "camera=(), microphone=(), geolocation=()"
+
+[[headers]]
+  for = "/assets/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/assets/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/assets/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# ---------- Redirects ----------
+# 末尾スラッシュ統一
+[[redirects]]
+  from   = "/index"
+  to     = "/"
+  status = 301
+
+# 存在しないページは全てトップへ (SPA fallback 不要だが念のため)
+[[redirects]]
+  from   = "/*"
+  to     = "/index.html"
+  status = 404
